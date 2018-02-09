@@ -49,4 +49,46 @@ func main(){
 		fmt.Printf("\n")
 	}
 
+	evalutionFn := getEvaluationFn(pizza, minToppings, maxArea)
+
+
+	s := pizzaSlice{coord{0,0}, coord{2,1}}
+	fmt.Println(evalutionFn(s))
+
+}
+	func getEvaluationFn(pizza [][]string, L,H int) (func (slice pizzaSlice) (ok bool, score int)){
+		return  func (slice pizzaSlice) (ok bool, score int){
+			mushroom, tomato, total := evalSlice(pizza, slice)
+			if mushroom >= L && tomato >= L && total <=H {
+				return true, total
+			}
+			return false, total
+		}
+	}
+
+
+	func evalSlice( pizza [][]string, s pizzaSlice) (mushroom, tomato, total int ){
+		for i := s.start.row; i <= s.end.row ; i ++ {
+			for j := s.start.col; j <= s.end.col; j++{
+
+				if pizza[i][j] == "M"{
+					mushroom++
+					}
+
+				if pizza[i][j] == "T"{
+					tomato++
+				}
+				total ++
+			}
+
+			}
+			return
+	}
+
+	type coord struct {
+		row, col int
+	}
+
+	type pizzaSlice struct {
+		start, end coord
 	}
